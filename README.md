@@ -8,4 +8,4 @@ https://takumin287877.github.io/background_color/
 使い方
 色をえらぶ。
 
-メニューはトリプルクリックで開きます。
+メニューはトリプルクリックで再度開きます。
