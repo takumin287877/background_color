@@ -8,6 +8,15 @@ let clickCount = 0;
 let clickTimer;
 let hideSettingsTimeout;
 
+// マウスが動いたかどうかを判断するフラグ
+let mouseHasMoved = false;
+
+// マウスが動いていない時間の制限（ミリ秒）
+const mouseMoveTimeout = 1200;
+
+// マウスが動いていない時間を追跡するタイマー
+let mouseMoveTimer;
+
 // ボディ要素がクリックまたはタップされたときの処理
 function handleBodyInteraction(event) {
     if (settings.classList.contains('hidden')) {
@@ -18,6 +27,7 @@ function handleBodyInteraction(event) {
             }, 3000);
         } else if (clickCount === 3) {
             clearTimeout(clickTimer);
+            document.body.classList.remove('hide-cursor');
             settings.classList.remove('hidden');
             clickCount = 0;
         }
@@ -47,6 +57,7 @@ function handleCancelButtonInteraction(event) {
 // 設定画面を非表示にするタイムアウトを開始する関数
 function startHideSettingsTimeout() {
     clearTimeout(hideSettingsTimeout);
+    document.body.classList.add('hide-cursor');
     hideSettingsTimeout = setTimeout(() => {
         settings.classList.add('hidden');
     }, 1000);
@@ -71,31 +82,31 @@ function disableScroll(event) {
     event.preventDefault();
 }
 
-let mouseTimer;
+// マウス移動イベントのリスナー
+document.addEventListener('mousemove', handleMouseMove);
 
-// マウスが動いたときの処理
+// マウス移動イベントのハンドラ
 function handleMouseMove() {
-    body.style.cursor = 'default';
-    body.classList.remove('fade-out');
-    body.classList.add('fade-in');
-    clearTimeout(mouseTimer);
-    mouseTimer = setTimeout(() => {
-        body.classList.remove('fade-in');
-        body.classList.add('fade-out');
-        setTimeout(() => {
-            body.style.cursor = 'none';
-        }, 100);
-    }, 1000);
+    mouseHasMoved = true;
+    document.body.classList.remove('hide-cursor');
+    clearTimeout(mouseMoveTimer);
+    mouseMoveTimer = setTimeout(() => {
+        mouseHasMoved = false;
+        if (settings.classList.contains('hidden')) {
+            document.body.classList.add('hide-cursor');
+        }
+    }, mouseMoveTimeout);
 }
+
 // イベントリスナーの設定
 body.addEventListener('click', handleBodyInteraction);
 body.addEventListener('touchstart', handleBodyInteraction);
-body.addEventListener('mousemove', handleMouseMove);
 colorPicker.addEventListener('change', handleColorPickerChange);
 presetColors.addEventListener('change', handlePresetColorChange);
 cancelButton.addEventListener('click', handleCancelButtonInteraction);
 cancelButton.addEventListener('touchstart', handleCancelButtonInteraction);
 document.addEventListener('touchmove', disableScroll, { passive: false });
 document.addEventListener('wheel', disableScroll, { passive: false });
+
 // 初期化処理
 loadPresetColors();
