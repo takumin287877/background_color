@@ -1,21 +1,46 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <title>単色背景サイト</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
-
 <body>
     <div class="settings">
-        <input type="color" id="color-picker" value="#ffffff">
-        <select id="preset-colors">
-            <option value="">プリセットを選択</option>
-        </select>
-        <button id="cancel-button">キャンセル</button>
+        <div class="settings-header">
+            <div class="header-left">
+                <div class="color-picker-container">
+                    <input type="color" id="color-picker" value="#ffffff">
+                    <label for="color-picker" class="color-picker-icon icon-button">
+                        <i class="fas fa-palette"></i>
+                    </label>
+                </div>
+            </div>
+            <div class="header-right">
+                <button id="show-instructions" class="icon-button">
+                    <i class="fas fa-question"></i>
+                </button>
+                <button id="cancel-button" class="icon-button">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <div class="settings-content">
+            <div id="color-preview"></div>
+            <div id="preset-colors"></div>
+            <div class="auto-close-setting">
+                <input type="checkbox" id="auto-close-checkbox">
+                <label for="auto-close-checkbox">自動で閉じる</label>
+            </div>
+        </div>
     </div>
-
+    <div id="instructions" class="instructions">
+        <h1>使い方説明</h1>
+        <p>1. 画面をクリックまたはタップして、設定画面を表示します。</p>
+        <p>2. カラーピッカーまたはプリセット色から好みの色を選択します。</p>
+        <p>3. 設定画面が自動的に非表示になります。再度表示するには、画面を3回クリックまたはタップしてください。</p>
+        <button id="close-instructions">閉じる</button>
+    </div>
     <script src="script.js"></script>
 </body>
-
 </html>

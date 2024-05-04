@@ -1,23 +1,19 @@
 const body = document.body;
 const settings = document.querySelector('.settings');
 const colorPicker = document.getElementById('color-picker');
+const colorPreview = document.getElementById('color-preview');
 const presetColors = document.getElementById('preset-colors');
 const cancelButton = document.getElementById('cancel-button');
+const autoCloseCheckbox = document.getElementById('auto-close-checkbox');
 
 let clickCount = 0;
 let clickTimer;
 let hideSettingsTimeout;
 
-// マウスが動いたかどうかを判断するフラグ
 let mouseHasMoved = false;
-
-// マウスが動いていない時間の制限（ミリ秒）
 const mouseMoveTimeout = 1200;
-
-// マウスが動いていない時間を追跡するタイマー
 let mouseMoveTimer;
 
-// ボディ要素がクリックまたはタップされたときの処理
 function handleBodyInteraction(event) {
     if (settings.classList.contains('hidden')) {
         clickCount++;
@@ -34,27 +30,69 @@ function handleBodyInteraction(event) {
     }
 }
 
-// 色ピッカーの値が変更されたときの処理
-function handleColorPickerChange(event) {
-    body.style.backgroundColor = event.target.value;
-    startHideSettingsTimeout();
+const instructions = document.getElementById('instructions');
+const closeInstructionsButton = document.getElementById('close-instructions');
+const showInstructionsButton = document.getElementById('show-instructions');
+
+function handleCloseInstructionsInteraction(event) {
+    instructions.style.display = 'none';
 }
 
-// プリセット色が選択されたときの処理
-function handlePresetColorChange(event) {
-    if (event.target.value) {
-        body.style.backgroundColor = event.target.value;
-        colorPicker.value = event.target.value;
+function handleShowInstructionsInteraction(event) {
+    instructions.style.display = 'block';
+}
+
+function showInstructionsOnAccess() {
+    instructions.style.display = 'block';
+}
+
+function handleColorPickerChange(event) {
+    body.style.backgroundColor = event.target.value;
+    colorPreview.style.backgroundColor = event.target.value;
+    document.querySelectorAll('.preset-color').forEach(c => c.classList.remove('selected'));
+    if (autoCloseCheckbox.checked) {
         startHideSettingsTimeout();
     }
 }
 
-// キャンセルボタンがクリックまたはタップされたときの処理
+function handlePresetColorClick(color) {
+    body.style.backgroundColor = color;
+    colorPicker.value = color;
+    colorPreview.style.backgroundColor = color;
+    document.querySelectorAll('.preset-color').forEach(c => c.classList.remove('selected'));
+    event.target.closest('.preset-color').classList.add('selected');
+    if (autoCloseCheckbox.checked) {
+        startHideSettingsTimeout();
+    }
+}
+
+function displayPresetColors(colors) {
+    presetColors.innerHTML = '';
+    colors.forEach(color => {
+        const presetColor = document.createElement('div');
+        presetColor.classList.add('preset-color');
+        presetColor.style.backgroundColor = color.value;
+        const checkIcon = document.createElement('i');
+        checkIcon.classList.add('fas', 'fa-check');
+        presetColor.appendChild(checkIcon);
+        presetColor.addEventListener('click', (event) => {
+            event.stopPropagation();
+            handlePresetColorClick(color.value);
+        });
+        presetColor.addEventListener('mouseover', () => {
+            colorPreview.style.backgroundColor = color.value;
+        });
+        presetColor.addEventListener('mouseout', () => {
+            colorPreview.style.backgroundColor = colorPicker.value;
+        });
+        presetColors.appendChild(presetColor);
+    });
+}
+
 function handleCancelButtonInteraction(event) {
     settings.classList.add('hidden');
 }
 
-// 設定画面を非表示にするタイムアウトを開始する関数
 function startHideSettingsTimeout() {
     clearTimeout(hideSettingsTimeout);
     document.body.classList.add('hide-cursor');
@@ -63,29 +101,24 @@ function startHideSettingsTimeout() {
     }, 1000);
 }
 
-// colors.jsonファイルから色のプリセットを読み込む関数
 function loadPresetColors() {
     fetch('colors.json')
         .then(response => response.json())
         .then(data => {
-            data.forEach(color => {
-                const option = document.createElement('option');
-                option.value = color.value;
-                option.textContent = color.name;
-                presetColors.appendChild(option);
-            });
+            displayPresetColors(data);
         });
 }
 
-// スクロールを無効にする関数
 function disableScroll(event) {
     event.preventDefault();
 }
 
-// マウス移動イベントのリスナー
+function updateColorPreview() {
+    colorPreview.style.backgroundColor = colorPicker.value;
+}
+
 document.addEventListener('mousemove', handleMouseMove);
 
-// マウス移動イベントのハンドラ
 function handleMouseMove() {
     mouseHasMoved = true;
     document.body.classList.remove('hide-cursor');
@@ -98,15 +131,18 @@ function handleMouseMove() {
     }, mouseMoveTimeout);
 }
 
-// イベントリスナーの設定
 body.addEventListener('click', handleBodyInteraction);
 body.addEventListener('touchstart', handleBodyInteraction);
 colorPicker.addEventListener('change', handleColorPickerChange);
-presetColors.addEventListener('change', handlePresetColorChange);
 cancelButton.addEventListener('click', handleCancelButtonInteraction);
 cancelButton.addEventListener('touchstart', handleCancelButtonInteraction);
 document.addEventListener('touchmove', disableScroll, { passive: false });
 document.addEventListener('wheel', disableScroll, { passive: false });
+closeInstructionsButton.addEventListener('click', handleCloseInstructionsInteraction);
+closeInstructionsButton.addEventListener('touchstart', handleCloseInstructionsInteraction);
+showInstructionsButton.addEventListener('click', handleShowInstructionsInteraction);
+showInstructionsButton.addEventListener('touchstart', handleShowInstructionsInteraction);
+colorPicker.addEventListener('change', updateColorPreview);
 
-// 初期化処理
 loadPresetColors();
+showInstructionsOnAccess();

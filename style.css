@@ -17,6 +17,16 @@ body {
   transition: opacity 0.5s;
   user-select: none;
   cursor: default;
+  text-align: center;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  max-width: 90%;
+  width: 400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .settings.hidden {
@@ -24,17 +34,149 @@ body {
   pointer-events: none;
 }
 
-.settings input,
-.settings select {
-  user-select: auto;
-  cursor: auto;
+.settings-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
 }
 
-.settings button {
-  margin-top: 10px;
+.header-left,
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.header-right .icon-button {
+  margin-left: 10px;
+}
+
+.settings-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.icon-button {
+  background: none;
+  border: none;
   cursor: pointer;
+  font-size: 24px;
+  color: #333;
+  padding: 10px;
+  transition: color 0.3s;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.icon-button:hover {
+  color: #000;
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .hide-cursor {
   cursor: none;
+}
+
+.color-picker-container {
+  position: relative;
+  display: inline-block;
+}
+
+.color-picker-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+#color-picker {
+  width: 60px;
+  height: 60px;
+  border: none;
+  border-radius: 50%;
+  padding: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  opacity: 0;
+}
+
+#color-preview {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin: 0 auto 20px;
+  border: 2px solid #ccc;
+  transition: background-color 0.3s ease;
+}
+
+#preset-colors {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.preset-color {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin: 5px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.preset-color.selected {
+  border-color: #000;
+}
+
+.preset-color i {
+  font-size: 18px;
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.preset-color.selected i {
+  opacity: 1;
+}
+
+.instructions {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  display: none;
+  z-index: 1000;
+  max-width: 90%;
+  width: 400px;
+}
+
+.instructions h1 {
+  margin-top: 0;
+  font-size: 24px;
+}
+
+.instructions p {
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.instructions button {
+  margin-top: 20px;
+  font-size: 18px;
+  padding: 10px 20px;
 }
