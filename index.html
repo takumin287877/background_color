@@ -1,32 +1,70 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>単色背景サイト</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-</head>
+
+    <head prefix="og: https://ogp.me/ns#">
+        <meta property="og:site_name" content=" 単色背景サイト" />
+        <meta property="og:title" content=" 単色背景サイト" />
+        <meta property="og:type" content=" website" />
+        <meta property="og:url" content=" https://takumin287877.github.io/background_color/" />
+        <meta property="og:image" content=" tanshoku_og.ico" />
+        <meta property="og:description" content=" PCのモニターを消さなくても、一面単色にできるだけのサイトです。集中したいときやアニメを見るときに使ってください。" />
+        <title>単色背景サイト</title>
+        <link rel="icon" href="favicon.ico">
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    </head>
+
 <body>
+    <div id="header" class="header">
+        <button id="share-button" class="header-button">
+            <i class="material-icons">share</i>
+        </button>
+        <div id="share-buttons" class="share-buttons hidden">
+            <a href="#" id="twitter-share" target="_blank">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="#" id="misskey-share" target="_blank">
+                <i class="fas fa-share-alt"></i>
+            </a>
+            <a href="#" id="facebook-share" target="_blank">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+        </div>
+        <button id="fullscreen-button" class="header-button">
+            <i class="material-icons">fullscreen</i>
+        </button>
+        <!-- <button id="contact-button" class="header-button">
+            <i class="material-icons">mail_outline</i>
+        </button> -->
+    </div>
     <div class="settings">
         <div class="settings-header">
             <div class="header-left">
                 <div class="color-picker-container">
                     <input type="color" id="color-picker" value="#ffffff">
                     <label for="color-picker" class="color-picker-icon icon-button">
-                        <i class="fas fa-palette"></i>
+                        <i class="material-icons">palette</i>
                     </label>
                 </div>
             </div>
             <div class="header-right">
                 <button id="show-instructions" class="icon-button">
-                    <i class="fas fa-question"></i>
+                    <i class="material-icons">help_outline</i>
                 </button>
                 <button id="cancel-button" class="icon-button">
-                    <i class="fas fa-times"></i>
+                    <i class="material-icons">close</i>
                 </button>
             </div>
         </div>
         <div class="settings-content">
             <div id="color-preview"></div>
+            <div id="color-info">
+                <span id="color-name"></span>
+                <span id="color-code"></span>
+            </div>
             <div id="preset-colors"></div>
             <div class="auto-close-setting">
                 <input type="checkbox" id="auto-close-checkbox">
@@ -35,12 +73,15 @@
         </div>
     </div>
     <div id="instructions" class="instructions">
-        <h1>使い方説明</h1>
+        <h1>使い方</h1>
         <p>1. 画面をクリックまたはタップして、設定画面を表示します。</p>
         <p>2. カラーピッカーまたはプリセット色から好みの色を選択します。</p>
         <p>3. 設定画面が自動的に非表示になります。再度表示するには、画面を3回クリックまたはタップしてください。</p>
-        <button id="close-instructions">閉じる</button>
+        <hr>
+        <p>「自動で閉じる」をオンにすると、色を選択した後に設定画面が自動的に閉じます。</p>
+        <button id="close-instructions">わかった</button>
     </div>
     <script src="script.js"></script>
 </body>
+
 </html>

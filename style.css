@@ -42,6 +42,44 @@ body {
   margin-bottom: 20px;
 }
 
+.header {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  z-index: 1000;
+  opacity: 1;
+  transition: opacity 0.5s;
+}
+
+.header.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.header-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  color: #ffffff;
+  padding: 10px;
+  transition: color 0.3s;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-left: 10px;
+}
+
+.header-button:hover {
+  color: #000;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
 .header-left,
 .header-right {
   display: flex;
@@ -77,6 +115,10 @@ body {
 .icon-button:hover {
   color: #000;
   background-color: rgba(0, 0, 0, 0.1);
+}
+
+.icon-button i {
+  font-size: 24px;
 }
 
 .hide-cursor {
@@ -117,6 +159,16 @@ body {
   transition: background-color 0.3s ease;
 }
 
+#color-info {
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+#color-name {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
 #preset-colors {
   display: flex;
   justify-content: center;
@@ -155,7 +207,7 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255, 1);
   padding: 20px;
   border-radius: 10px;
   text-align: center;
@@ -179,4 +231,46 @@ body {
   margin-top: 20px;
   font-size: 18px;
   padding: 10px 20px;
+}
+
+#fullscreen-button .material-icons {
+    transition: transform 0.3s;
+}
+
+#fullscreen-button.active .material-icons {
+    transform: rotate(180deg);
+}
+
+.share-buttons {
+    position: fixed;
+    top: 60px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    z-index: 1000;
+    opacity: 1;
+    transition: opacity 0.5s;
+}
+
+.share-buttons.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.share-buttons a {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-left: 10px;
+    color: #ffffff;
+    background-color: rgba(0, 0, 0, 0.5);
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.share-buttons a:hover {
+    background-color: rgba(0, 0, 0, 0.8);
 }
